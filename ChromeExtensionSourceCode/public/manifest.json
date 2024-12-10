@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "version": "1.0.0",
+    "name": "My Vite Extension",
+    "action": {
+        "default_popup": "index.html"
+    },
+    "permissions": ["scripting"],
+    "host_permissions":[
+        "http://*/*",
+        "https://*/*"
+    ], 
+    "icons": {
+        "16": "Chromie.png",
+        "32": "Chromie.png",
+        "48": "Chromie.png",
+        "128": "Chromie.png"
+
+    }    
+}
