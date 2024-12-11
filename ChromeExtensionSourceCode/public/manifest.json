@@ -5,6 +5,10 @@
     "action": {
         "default_popup": "index.html"
     },
+    "content-scripts": [{
+        "world": "MAIN",
+        "js": ["document_change.js"]
+    }],
     "permissions": ["scripting"],
     "host_permissions":[
         "http://*/*",
