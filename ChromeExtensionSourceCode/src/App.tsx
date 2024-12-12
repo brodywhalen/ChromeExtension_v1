@@ -8,7 +8,7 @@ function App() {
   // const [count, setCount] = useState(0)
 
   const onclick = async() => {
-    const [tab] = await chrome.tabs.query({active:true, lastFocusedWindow: true})
+    const [tab] = await chrome.tabs.query({active:true /*, lastFocusedWindow: true}*/})
     console.log(tab);
 
     setTimeout(function(){console.log('waiting over')}, 1500);
@@ -17,19 +17,25 @@ function App() {
       target: {tabId: tab.id!},
       func: () => {
 
-      const keyEvent = new KeyboardEvent('keypress', {bubbles: true, cancelable: true, key: 'b'})
-      // keyEvent.key = KEY // A key like 'a' or 'B' or 'Backspace'
-      // You will need to change this line if you want to use other special characters such as the left and right arrows
-      // keyEvent.keyCode = KEY.charCodeAt(0) 
-      console.log('keyEvent: ', keyEvent);
-      
-      setTimeout(function(){document.querySelector<HTMLIFrameElement>('.docs-texteventtarget-iframe')!.contentDocument!.activeElement!.dispatchEvent(keyEvent)
-        console.log('waiting completed')
-      }, 1000) // exlamation points for anti null assertion correct?
-      
+      // const keyEvent = new KeyboardEvent('keydown', {bubbles: true, cancelable: true, key: 'b'})
+      // console.log('keyEvent: ', keyEvent);
+      // document.querySelector<HTMLIFrameElement>('.docs-texteventtarget-iframe docs-offscreen-z-index docs-texteventtarget-iframe-negative-top').contentDocument.activeElement.dispatchEvent(keyEvent)
+      // console.log('waiting completed')
+      const input = document.querySelector(".docs-texteventtarget-iframe").contentDocument.activeElement;
+
+    
+// below works
+const eventObj = new KeyboardEvent("keypress", {
+  bubbles: true,
+  cancelable: true,
+  keyCode: 105
+});
+input.dispatchEvent(eventObj);
+
 
         // alert('hello from my extension')
-      }
+      },
+      world: "MAIN"
     })
   }
 
