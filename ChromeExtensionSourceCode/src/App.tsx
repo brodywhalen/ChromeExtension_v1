@@ -8,11 +8,9 @@ function App() {
   // const [count, setCount] = useState(0)
 
   const onclick = async() => {
-    const [tab] = await chrome.tabs.query({active:true /*, lastFocusedWindow: true}*/})
-    console.log(tab);
+    const [tab] = await chrome.tabs.query({active:true , lastFocusedWindow: true})
+    console.log('target: ', tab);
 
-    setTimeout(function(){console.log('waiting over')}, 1500);
- 
     chrome.scripting.executeScript({
       target: {tabId: tab.id!},
       func: () => {
@@ -21,23 +19,36 @@ function App() {
       // console.log('keyEvent: ', keyEvent);
       // document.querySelector<HTMLIFrameElement>('.docs-texteventtarget-iframe docs-offscreen-z-index docs-texteventtarget-iframe-negative-top').contentDocument.activeElement.dispatchEvent(keyEvent)
       // console.log('waiting completed')
-      const input = document.querySelector(".docs-texteventtarget-iframe").contentDocument.activeElement;
 
-    
-// below works
-const eventObj = new KeyboardEvent("keypress", {
-  bubbles: true,
-  cancelable: true,
-  keyCode: 105
-});
-input.dispatchEvent(eventObj);
-
-
-        // alert('hello from my extension')
+      const input = (document.querySelector(".docs-texteventtarget-iframe") as HTMLObjectElement).contentDocument!.activeElement; // why is ts not picking this up? who knows?
+      console.log('input: ', input);
+      const eventObj = new KeyboardEvent("keypress", {
+          bubbles: true,
+          cancelable: true,
+          keyCode: 105
+        });
+        input!.dispatchEvent(eventObj); // this should
+        
       },
       world: "MAIN"
     })
   }
+    
+// below works
+// const input = document.querySelector(".docs-texteventtarget-iframe").contentDocument.activeElement;
+
+    
+// // below works
+// const eventObj = new KeyboardEvent("keypress", {
+//   bubbles: true,
+//   cancelable: true,
+//   keyCode: 105
+// });
+// input.dispatchEvent(eventObj);
+
+
+        // alert('hello from my extension')
+
 
   return (
     <>
@@ -64,5 +75,4 @@ input.dispatchEvent(eventObj);
     </>
   )
 }
-
 export default App
